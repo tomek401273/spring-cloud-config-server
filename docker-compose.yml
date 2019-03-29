@@ -1,38 +1,27 @@
 version: '3'
 services:
-  eureka1:
-    image: tomek371240/demo-eurekaserver:1
+  spring-cloud-config-server:
+    image: tomek371240/config-server:5
     networks:
-      springcloud-overlay:
-        aliases:
-          - eureka
+      - springcloud-overlay
     ports:
-      - "8761:8761"
-    environment:
-      - ADDITIONAL_EUREKA_SERVER_LIST=http://eureka2:8761/eureka/,http://eureka3:8761/eureka/
-    labels:
-      - "aliyun.logs.eureka=stdout"
-  eureka2:
-    image: tomek371240/demo-eurekaserver:1
+      - "8888:8888"
+  limits-service:
+    image: tomek371240/limit-service:5
     networks:
-      springcloud-overlay:
-        aliases:
-          - eureka
+      - springcloud-overlay
     ports:
-      - "8762:8761"
-    environment:
-      - ADDITIONAL_EUREKA_SERVER_LIST=http://eureka1:8761/eureka/,http://eureka3:8761/eureka/
-
-  eureka3:
-    image: tomek371240/demo-eurekaserver:1
-    networks:
-      springcloud-overlay:
-        aliases:
-          - eureka
-    ports:
-      - "8763:8761"
-    environment:
-      - ADDITIONAL_EUREKA_SERVER_LIST=http://eureka1:8761/eureka/,http://eureka2:8761/eureka/
+      - "8080:8080"
+    depends_on:
+      - spring-cloud-config-server
+#  netflix-eureka-naming-server:
+#    image: tomek371240/netflix-eureka-naming-server:1
+#    networks:
+#      - springcloud-overlay
+#    ports:
+#      - "8761:8761"
+#    depends_on:
+#      - limits-service
 
 networks:
   springcloud-overlay:
