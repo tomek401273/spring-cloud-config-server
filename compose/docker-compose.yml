@@ -15,11 +15,9 @@ services:
     depends_on:
       - spring-cloud-config-server
   netflix-eureka-naming-server:
-    image:  tomek371240/netflix-eureka-naming-server:3.0
+    image:  tomek371240/netflix-eureka-naming-server:4.0
     networks:
       - springcloud-overlay
-    ports:
-      - "8761:8761"
     depends_on:
       - limits-service
 
